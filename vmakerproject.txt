@@ -10,7 +10,7 @@ public class VideoPlaybackController : MonoBehaviour
    private float mTimeElapsed = 0.0f;
    private bool mTapped = false;
    private float mTimeElapsedSinceTap = 0.0f;
-  
+   private boolmWentToFullScreen = false;
    
    void Update ()
    {
