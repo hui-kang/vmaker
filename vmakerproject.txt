@@ -8,7 +8,7 @@ public class VideoPlaybackController : MonoBehaviour
    private Vector2 mTouchStartpos;
    private bool mTouchMoved = false;
    private float mTimeElapsed = 0.0f;
-   private bool mTapped = false;
+   private bool mTapped = true;
    private float mTimeElapsedSinceTap = 0.0f;
    private boolmWentToFullScreen = false;
    
@@ -29,7 +29,7 @@ public class VideoPlaybackController : MonoBehaviour
           }
           if (touch.phase == TouchPhase.Moved)
           {
-            if (Vector2.Distance(mTouchStartPos, touch.position) > 40)
+            if (Vector2.Distance(mTouchStartPos, touch.position) > 50)
              {
                mTouchMoved = true;
              }
