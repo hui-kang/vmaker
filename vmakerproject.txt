@@ -73,6 +73,91 @@ public class VideoPlaybackController : MonoBehaviour
           }
        }
    }
+      
+   #endregion
+   #region Private_Methods
+   private void HandleTap()
+   {
+      VideoPlaybackBehaviour video = PickVideo(mTouchStartPos);
+      if (video != null)
+      {
+         if (video.VideoPlayer.IsPlayableOnTexture())
+         VideoPlayerHelper.MediaState state = video.VideoPlayer.GetStatus();
+         if (state == VideoPlayerHelper.MediaState.PAUSED ||
+         state == VideoPlayerHelper.MediaState.READY ||
+         state == VideoPlayerHelper.MediaState.STOPPED)
+         {
+            PauseOtherVideos(video);
+         }
+         else if (state == VideoPlayerHelper.MediaState.REACHED_END)
+         {
+            PauseOtherVideos(video);
+            video.VideoPlayer.Play(false, 0);
+         }
+      }
+      else
+      {
+         video.ShowBusyIcon();
+         video.VideoPlayer.Play(true, 0);
+         mWentToFullScreen = true;
+      }
+    }
+  }
+  
+   private void HandleDouble Tap()
+   { 
+      VideoPlaybackBehaviour video = PickVideo(mTouchStartPos);
+      if (video != null)
+      {
+         if (video.VideoPlayer.IsPlayableFullscreen())
+         {
+            video.VideoPlayer.Pause();
+            video.VideoPlayer.SeekTo(0.0f);
+            video.ShowBusyIcon();
+            video.VideoPlayer.Play(true, 0);
+            mWentToFullScreen = true;
+         }
+      }
+   }
+   private VideoPlaybackBehaviour PickVideo(Vector3 screenPoint)
+   {
+      VideoPlaybackBehaviour[] videos = (VideoPlaybackBehaviour[])
+      FindObjectsOfType(typeof(VideoPlaybackBehaviour));
+      Ray ray = Camera.main.ScreenPointToRay(screenPoint);
+      RaycastHit hit = new RaycastHit();
+      foreach (VideoPlaybackBehaviour video in videos)
+      {
+         if (video.collider.Raycast(ray, out hit, 10000))
+         {
+            return video;
+         }
+      }
+      return null;
+   }
+ 
+   private void PauseOtherVideos(VideoPlaybackBehaviour currentVideo)
+   {
+      VideoPlaybackBehaviour[] videos = (VideoPlaybackBehaviour[])
+      FindObjectsOfType(typeof(VideoPlaybackBehaviour));
+      foreach (VideoPlaybackBehaviour video in videos)
+      {
+         if (video != currentVideo)
+         {
+           if (video.CurrentState == VideoPlayerHelper.MediaState.PLAYING)
+           {
+           video.VideoPlayer.Pause();
+           }
+         }
+      }
+   }
+#endregion 
+#region PUBLIC_METHODS
    
-   
-                      
+   public bool CheckWentToFullScreen()
+   {
+      bool result = mWentToFullScreen;
+      mWentToFullScreen = false;
+      return result;
+   }
+#endregion 
+}
