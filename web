@@ -50,3 +50,20 @@ public class CallingMap:MonoBehaviour
 
 
     }
+ public void openiphone()
+    {
+        Application.OpenURL("https://www.phonearena.com/phones/Apple-iPhone-7_id9815/reviews");
+    }
+
+    public void opensamsung()
+    {
+        Application.OpenURL("https://www.phonearena.com/phones/Samsung-Galaxy-S8_id10311/reviews");
+    }
+
+
+
+
+
+
+
+}
