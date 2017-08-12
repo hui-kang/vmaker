@@ -38,3 +38,55 @@ public class CheckLogin : MonoBehaviour {
         StartCoroutine( FeedbackFromPHP(check_username, check_password));
 
     }
+IEnumerator FeedbackFromPHP (string user_username, string user_password)
+    {
+        Debug.Log("Executed!");
+        WWWForm form = new WWWForm();
+
+        form.AddField("check_usernamePost", check_username);
+        form.AddField("check_passwordPost", check_password);
+
+
+        WWW www = new WWW(LoginCheckURL, form);
+
+        yield return www;
+
+        Debug.Log(www.text);
+
+
+
+       if (www.text == "Login Successful! ")
+        {
+            loggin_panel.SetActive(true);
+            loggin_warntext.text = "Login Successful! \n Press Next to continue...";
+            Back_button.SetActive(false);
+            Next_button.SetActive(true);
+
+
+        }
+
+       else if (www.text == "Password Incorrect. Please check again.")
+        {
+            loggin_panel.SetActive(true);
+            loggin_warntext.text = "Password Incorrect. Please check again.";
+            Next_button.SetActive(false);
+            Back_button.SetActive(true);
+        }
+
+        else
+        {
+            loggin_panel.SetActive(true);
+            loggin_warntext.text = "Username not exist. Please check again.";
+            Next_button.SetActive(false);
+            Back_button.SetActive(true);
+        }
+
+        
+
+    }
+
+
+
+
+
+}
