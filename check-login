@@ -1,0 +1,40 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class CheckLogin : MonoBehaviour {
+    public InputField input;
+    public string notice;
+  
+    public string check_username;
+    public string check_password;
+
+    public GameObject loggin_panel;
+    public Text loggin_warntext = null;
+    public GameObject Back_button;
+    public GameObject Next_button;
+
+    string LoginCheckURL = "http://pictalive.com/LoginScript_internet.php";//"localhost/Testing1/LoginScript.php"
+
+
+    // Use this for initialization
+    void Start () {
+
+	}
+
+
+    public void CheckUser()
+    {
+        Debug.Log("Clicked!");
+        input = GameObject.Find("In_Username").GetComponent<InputField>();
+        check_username = input.text;
+
+        input = GameObject.Find("In_Password").GetComponent<InputField>();
+        check_password = input.text;
+        print(check_password);
+        print(check_username);
+        Debug.Log("Now wait!");
+        StartCoroutine( FeedbackFromPHP(check_username, check_password));
+
+    }
