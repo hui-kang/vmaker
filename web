@@ -28,3 +28,25 @@ public class CallingMap:MonoBehaviour
       {
           launchInternet=packageManager.Call<AndroidJavaObject>("getLaunchIntentForPackage",bundleID);
       }
+      catch (System.Exception e)
+        {
+            fail = true;
+        }
+
+        if (fail)
+        { 
+            Application.OpenURL("https://google.com");
+        }
+        else 
+            ca.Call("startActivity", launchIntent);
+
+        up.Dispose();
+        ca.Dispose();
+        packageManager.Dispose();
+        launchIntent.Dispose();
+
+        Debug.Log(bundleId);
+
+
+
+    }
